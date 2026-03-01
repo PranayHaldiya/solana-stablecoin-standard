@@ -1,0 +1,27 @@
+{
+  "name": "@stbr/sss-services",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Backend services for Solana Stablecoin Standard",
+  "scripts": {
+    "mint-burn": "ts-node src/mint-burn-service.ts",
+    "indexer": "ts-node src/indexer-service.ts",
+    "compliance": "ts-node src/compliance-service.ts",
+    "webhook": "ts-node src/webhook-service.ts"
+  },
+  "dependencies": {
+    "@coral-xyz/anchor": "^0.31.1",
+    "@solana/spl-token": "^0.4.12",
+    "@solana/web3.js": "^1.98.0",
+    "express": "^4.21.0",
+    "bn.js": "^5.2.1",
+    "dotenv": "^16.4.5",
+    "winston": "^3.17.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.0.0",
+    "ts-node": "^10.9.2"
+  }
+}

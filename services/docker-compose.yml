@@ -1,0 +1,77 @@
+version: "3.8"
+
+services:
+  # ─── Mint/Burn Service ──────────────────────────────────────
+  mint-burn:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: ["node", "dist/mint-burn-service.js"]
+    ports:
+      - "3001:3001"
+    environment:
+      - MINT_BURN_PORT=3001
+      - SOLANA_CLUSTER=devnet
+      - KEYPAIR_PATH=/app/keypair.json
+    volumes:
+      - ./keypair.json:/app/keypair.json:ro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ─── Indexer Service ────────────────────────────────────────
+  indexer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: ["node", "dist/indexer-service.js"]
+    ports:
+      - "3002:3002"
+    environment:
+      - INDEXER_PORT=3002
+      - SOLANA_CLUSTER=devnet
+      - SSS_PROGRAM_ID=${SSS_PROGRAM_ID:-SSS1111111111111111111111111111111111111111}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3002/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ─── Compliance Service ────────────────────────────────────
+  compliance:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: ["node", "dist/compliance-service.js"]
+    ports:
+      - "3003:3003"
+    environment:
+      - COMPLIANCE_PORT=3003
+      - SOLANA_CLUSTER=devnet
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3003/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ─── Webhook Service ───────────────────────────────────────
+  webhook:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: ["node", "dist/webhook-service.js"]
+    ports:
+      - "3004:3004"
+    environment:
+      - WEBHOOK_PORT=3004
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3004/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3

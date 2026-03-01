@@ -1,0 +1,25 @@
+{
+  "name": "@stbr/sss-token",
+  "version": "0.1.0",
+  "description": "Solana Stablecoin Standard SDK - TypeScript client for SSS-1/SSS-2 stablecoins",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@coral-xyz/anchor": "^0.31.1",
+    "@solana/web3.js": "^1.95.0",
+    "@solana/spl-token": "^0.4.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "@types/node": "^20.0.0"
+  },
+  "files": [
+    "dist/",
+    "src/"
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "name": "@stbr/sss-cli",
+  "version": "0.1.0",
+  "description": "CLI tool for Solana Stablecoin Standard (SSS)",
+  "license": "MIT",
+  "bin": {
+    "sss": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "ts-node src/index.ts"
+  },
+  "dependencies": {
+    "@coral-xyz/anchor": "^0.31.1",
+    "@solana/spl-token": "^0.4.12",
+    "@solana/web3.js": "^1.98.0",
+    "commander": "^12.1.0",
+    "chalk": "^4.1.2",
+    "ora": "^5.4.1",
+    "bs58": "^5.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0",
+    "@types/node": "^20.0.0",
+    "ts-node": "^10.9.2"
+  }
+}

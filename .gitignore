@@ -1,0 +1,11 @@
+target/
+node_modules/
+dist/
+.anchor/
+test-ledger/
+.env
+.env.*
+*.log
+*.swp
+*.swo
+*.so
