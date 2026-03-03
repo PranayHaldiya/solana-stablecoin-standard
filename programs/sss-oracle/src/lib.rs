@@ -7,7 +7,7 @@ pub mod instructions;
 use instructions::*;
 use state::OracleInitConfig;
 
-declare_id!("2kouVKq1aQhwntSkTjgA8Nh6wtuxyYL1MjMnyA6srnGr");
+declare_id!("E7U8UzJKqKaRBNVyeJ44kzBsuEf11TbjPETGeewzznLs");
 
 #[program]
 pub mod sss_oracle {

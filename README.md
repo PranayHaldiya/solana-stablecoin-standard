@@ -60,7 +60,7 @@ graph TD
 |---------|-------------|-----------|
 | **sss-token** | Core stablecoin (14 instructions) | `3TBnziiRfJEusEa21mg6UyEETUqPhr8EmjfoWPGzgCxk` |
 | **sss-transfer-hook** | Blacklist enforcement hook | `J8sRn7M35NfUi511JY3Hnw4dPBm9UvwmpKCBrAbzCMKq` |
-| **sss-oracle** | Price feed reader (Switchboard) | `2kouVKq1aQhwntSkTjgA8Nh6wtuxyYL1MjMnyA6srnGr` |
+| **sss-oracle** | Price feed reader (Switchboard) | `E7U8UzJKqKaRBNVyeJ44kzBsuEf11TbjPETGeewzznLs` |
 
 ## Project Structure
 
@@ -242,11 +242,12 @@ All programs are deployed and verified on Solana Devnet:
 |---------|-----------|----------|
 | **sss-token** | `3TBnziiRfJEusEa21mg6UyEETUqPhr8EmjfoWPGzgCxk` | [View on Explorer](https://explorer.solana.com/address/3TBnziiRfJEusEa21mg6UyEETUqPhr8EmjfoWPGzgCxk?cluster=devnet) |
 | **sss-transfer-hook** | `J8sRn7M35NfUi511JY3Hnw4dPBm9UvwmpKCBrAbzCMKq` | [View on Explorer](https://explorer.solana.com/address/J8sRn7M35NfUi511JY3Hnw4dPBm9UvwmpKCBrAbzCMKq?cluster=devnet) |
-| **sss-oracle** | `2kouVKq1aQhwntSkTjgA8Nh6wtuxyYL1MjMnyA6srnGr` | [View on Explorer](https://explorer.solana.com/address/2kouVKq1aQhwntSkTjgA8Nh6wtuxyYL1MjMnyA6srnGr?cluster=devnet) |
+| **sss-oracle** | `E7U8UzJKqKaRBNVyeJ44kzBsuEf11TbjPETGeewzznLs` | [View on Explorer](https://explorer.solana.com/address/E7U8UzJKqKaRBNVyeJ44kzBsuEf11TbjPETGeewzznLs?cluster=devnet) |
 
 **Deployment Transactions:**
 - sss-token: [`EPBXQBD7HwBzicEQLHzskgsjgeKrHMGmLkzpquJLYf5SpC998Pi9fKZuE3g7hWC6dWfSQJMsgLyFw4pN6g83mm4`](https://explorer.solana.com/tx/EPBXQBD7HwBzicEQLHzskgsjgeKrHMGmLkzpquJLYf5SpC998Pi9fKZuE3g7hWC6dWfSQJMsgLyFw4pN6g83mm4?cluster=devnet)
 - sss-transfer-hook: [`2TZFJQqde2nsS5ScLSgsvmWbkxjhpXLQ3sLiwfsxS4rdxEo3qMfJLxeqgKnRgSZ1JBCUHsf6ETbwi4H5djqWWC3q`](https://explorer.solana.com/tx/2TZFJQqde2nsS5ScLSgsvmWbkxjhpXLQ3sLiwfsxS4rdxEo3qMfJLxeqgKnRgSZ1JBCUHsf6ETbwi4H5djqWWC3q?cluster=devnet)
+- sss-oracle: [`mwfRsXkPtESeK9AYoB3GcsGKEya53K85uqg4joC7DL6gn1nN2m9qGsEEpnRUb6wA2uho2mpHJX925ghLS3GM159`](https://explorer.solana.com/tx/mwfRsXkPtESeK9AYoB3GcsGKEya53K85uqg4joC7DL6gn1nN2m9qGsEEpnRUb6wA2uho2mpHJX925ghLS3GM159?cluster=devnet)
 
 > See [DEPLOYMENT.md](docs/DEPLOYMENT.md) for full deployment evidence including cost analysis.
 

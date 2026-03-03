@@ -5,7 +5,7 @@ import BN from "bn.js";
  * Oracle Program ID (devnet)
  */
 export const SSS_ORACLE_PROGRAM_ID = new PublicKey(
-  "2kouVKq1aQhwntSkTjgA8Nh6wtuxyYL1MjMnyA6srnGr"
+  "E7U8UzJKqKaRBNVyeJ44kzBsuEf11TbjPETGeewzznLs"
 );
 
 /**

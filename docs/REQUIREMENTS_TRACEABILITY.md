@@ -129,7 +129,7 @@ Maps each bounty requirement to its implementation location. This document ensur
 |---------|-----------|-----------|
 | sss-token | `3TBnziiRfJEusEa21mg6UyEETUqPhr8EmjfoWPGzgCxk` | `EPBXQBD7HwBzicEQLHzskgsjgeKrHMGmLkzpquJLYf5SpC998Pi9fKZuE3g7hWC6dWfSQJMsgLyFw4pN6g83mm4` |
 | sss-transfer-hook | `J8sRn7M35NfUi511JY3Hnw4dPBm9UvwmpKCBrAbzCMKq` | `2TZFJQqde2nsS5ScLSgsvmWbkxjhpXLQ3sLiwfsxS4rdxEo3qMfJLxeqgKnRgSZ1JBCUHsf6ETbwi4H5djqWWC3q` |
-| sss-oracle | `2kouVKq1aQhwntSkTjgA8Nh6wtuxyYL1MjMnyA6srnGr` | Compiled (.so built, pending devnet SOL for deploy) |
+| sss-oracle | `E7U8UzJKqKaRBNVyeJ44kzBsuEf11TbjPETGeewzznLs` | Deployed to devnet ([View](https://explorer.solana.com/address/E7U8UzJKqKaRBNVyeJ44kzBsuEf11TbjPETGeewzznLs?cluster=devnet)) |
 
 Explorer links:
 - [sss-token on Explorer](https://explorer.solana.com/address/3TBnziiRfJEusEa21mg6UyEETUqPhr8EmjfoWPGzgCxk?cluster=devnet)

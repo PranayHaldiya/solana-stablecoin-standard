@@ -2,7 +2,7 @@
 
 ## Devnet Deployment
 
-Both on-chain programs are deployed and verified on **Solana Devnet**.
+All three on-chain programs are deployed and verified on **Solana Devnet**.
 
 ### Program IDs
 
@@ -10,6 +10,7 @@ Both on-chain programs are deployed and verified on **Solana Devnet**.
 |---------|-----------|---------------|
 | **sss-token** (Core Stablecoin) | `3TBnziiRfJEusEa21mg6UyEETUqPhr8EmjfoWPGzgCxk` | [View on Solana Explorer](https://explorer.solana.com/address/3TBnziiRfJEusEa21mg6UyEETUqPhr8EmjfoWPGzgCxk?cluster=devnet) |
 | **sss-transfer-hook** (Compliance Hook) | `J8sRn7M35NfUi511JY3Hnw4dPBm9UvwmpKCBrAbzCMKq` | [View on Solana Explorer](https://explorer.solana.com/address/J8sRn7M35NfUi511JY3Hnw4dPBm9UvwmpKCBrAbzCMKq?cluster=devnet) |
+| **sss-oracle** (Price Feed Reader) | `E7U8UzJKqKaRBNVyeJ44kzBsuEf11TbjPETGeewzznLs` | [View on Solana Explorer](https://explorer.solana.com/address/E7U8UzJKqKaRBNVyeJ44kzBsuEf11TbjPETGeewzznLs?cluster=devnet) |
 
 ### Deployment Transactions
 
@@ -17,6 +18,7 @@ Both on-chain programs are deployed and verified on **Solana Devnet**.
 |---------|----------------------|---------------|
 | sss-token | `EPBXQBD7HwBzicEQLHzskgsjgeKrHMGmLkzpquJLYf5SpC998Pi9fKZuE3g7hWC6dWfSQJMsgLyFw4pN6g83mm4` | [View Transaction](https://explorer.solana.com/tx/EPBXQBD7HwBzicEQLHzskgsjgeKrHMGmLkzpquJLYf5SpC998Pi9fKZuE3g7hWC6dWfSQJMsgLyFw4pN6g83mm4?cluster=devnet) |
 | sss-transfer-hook | `2TZFJQqde2nsS5ScLSgsvmWbkxjhpXLQ3sLiwfsxS4rdxEo3qMfJLxeqgKnRgSZ1JBCUHsf6ETbwi4H5djqWWC3q` | [View Transaction](https://explorer.solana.com/tx/2TZFJQqde2nsS5ScLSgsvmWbkxjhpXLQ3sLiwfsxS4rdxEo3qMfJLxeqgKnRgSZ1JBCUHsf6ETbwi4H5djqWWC3q?cluster=devnet) |
+| sss-oracle | `mwfRsXkPtESeK9AYoB3GcsGKEya53K85uqg4joC7DL6gn1nN2m9qGsEEpnRUb6wA2uho2mpHJX925ghLS3GM159` | [View Transaction](https://explorer.solana.com/tx/mwfRsXkPtESeK9AYoB3GcsGKEya53K85uqg4joC7DL6gn1nN2m9qGsEEpnRUb6wA2uho2mpHJX925ghLS3GM159?cluster=devnet) |
 
 ### Deploy Authority
 
