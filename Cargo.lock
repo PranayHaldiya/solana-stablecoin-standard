@@ -2312,6 +2312,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "sss-oracle"
+version = "0.1.0"
+dependencies = [
+ "anchor-lang",
+ "blake3",
+ "constant_time_eq",
+ "solana-program",
+]
+
+[[package]]
 name = "sss-token"
 version = "0.1.0"
 dependencies = [

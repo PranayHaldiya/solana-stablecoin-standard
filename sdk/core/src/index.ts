@@ -7,6 +7,20 @@ export { ComplianceModule } from "./compliance";
 export { type StablecoinConfig, type MintResult, type BurnResult } from "./types";
 export { findStablecoinConfigPDA, findMinterConfigPDA, findBlacklistEntryPDA } from "./pda";
 
+// Oracle module
+export {
+  SSS_ORACLE_PROGRAM_ID,
+  findOracleConfigPDA,
+  computeMintAmountFromOracle,
+  computeRedeemAmountFromOracle,
+  fetchOracleConfig,
+  parseOracleConfig,
+  type OracleConfig,
+  type PriceData,
+  type ComputedAmount,
+  type OracleInitParams,
+} from "./oracle";
+
 // Re-export common types
 export { BN } from "@coral-xyz/anchor";
 export { PublicKey, Keypair } from "@solana/web3.js";

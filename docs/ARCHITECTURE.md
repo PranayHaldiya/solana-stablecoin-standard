@@ -10,6 +10,103 @@ Layer 2: Modules (Compliance, Privacy, Oracle)
 Layer 1: Base SDK (Token Creation, Roles, Mint/Burn, Freeze)
 ```
 
+### Layer Architecture Diagram
+
+```mermaid
+graph TD
+    subgraph "Layer 3: Standard Presets"
+        SSS1["SSS-1<br/>Minimal Stablecoin"]
+        SSS2["SSS-2<br/>Compliant Stablecoin"]
+    end
+
+    subgraph "Layer 2: Modules"
+        COMP["Compliance Module<br/>Blacklist + Seizure"]
+        ORACLE["Oracle Module<br/>Price Feeds"]
+    end
+
+    subgraph "Layer 1: Base SDK"
+        CREATE["Token Creation"]
+        ROLES["Role Management"]
+        MINTBURN["Mint / Burn"]
+        FREEZE["Freeze / Thaw"]
+    end
+
+    subgraph "On-Chain Programs"
+        TOKEN["sss-token<br/>Core Program"]
+        HOOK["sss-transfer-hook<br/>Compliance Hook"]
+        ORC["sss-oracle<br/>Price Feed Reader"]
+    end
+
+    subgraph "Solana Runtime"
+        T22["Token-2022<br/>SPL Token Extensions"]
+    end
+
+    SSS1 --> CREATE
+    SSS1 --> ROLES
+    SSS1 --> MINTBURN
+    SSS1 --> FREEZE
+    SSS2 --> COMP
+    SSS2 --> CREATE
+    SSS2 --> ROLES
+    SSS2 --> MINTBURN
+    SSS2 --> FREEZE
+    COMP --> TOKEN
+    COMP --> HOOK
+    ORACLE --> ORC
+    CREATE --> TOKEN
+    ROLES --> TOKEN
+    MINTBURN --> TOKEN
+    FREEZE --> TOKEN
+    TOKEN --> T22
+    HOOK --> T22
+```
+
+### Mint Lifecycle Flow
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant SDK
+    participant SSS_Token as sss-token Program
+    participant Token2022 as Token-2022
+    participant Hook as Transfer Hook
+
+    Client->>SDK: create({ preset: "SSS-2", name, symbol })
+    SDK->>Token2022: createMint (with extensions)
+    SDK->>SSS_Token: initialize(config)
+    SSS_Token-->>SDK: StablecoinConfig PDA created
+
+    Client->>SDK: mint(recipient, amount)
+    SDK->>SSS_Token: mint_tokens(amount)
+    SSS_Token->>SSS_Token: Check minter quota
+    SSS_Token->>Token2022: MintTo (via PDA authority)
+    Token2022-->>Client: Tokens minted
+
+    Note over Client,Hook: On transfer (SSS-2 only)
+    Client->>Token2022: transfer_checked(amount)
+    Token2022->>Hook: Execute transfer hook
+    Hook->>Hook: Check sender blacklist PDA
+    Hook->>Hook: Check recipient blacklist PDA
+    Hook-->>Token2022: Allow / Reject
+```
+
+### Compliance Flow (SSS-2)
+
+```mermaid
+flowchart LR
+    A[Detect Illicit Activity] --> B{Blacklister Role}
+    B --> C[Add to Blacklist]
+    C --> D[BlacklistEntry PDA Created]
+    D --> E{Transfer Attempted?}
+    E -->|Yes| F[Transfer Hook Rejects]
+    E -->|No| G{Seizer Role}
+    G --> H[Seize Tokens]
+    H --> I[Permanent Delegate<br/>Transfers to Treasury]
+    D --> J{Issue Resolved?}
+    J -->|Yes| K[Remove from Blacklist]
+    K --> L[BlacklistEntry PDA Closed]
+```
+
 ## On-Chain Programs
 
 ### sss-token (Core Program)
@@ -96,6 +193,31 @@ User calls transfer_checked → Token-2022 → Transfer Hook
                                               └── Allow or reject
 ```
 
+### sss-oracle (Oracle Program)
+
+Provides on-chain price-feed integration for non-USD-pegged stablecoins (BRL, EUR, Gold, etc.). Reads from Switchboard-compatible oracles and computes mint/redeem amounts at live exchange rates.
+
+**Program ID**: `2kouVKq1aQhwntSkTjgA8Nh6wtuxyYL1MjMnyA6srnGr`
+
+#### Oracle Instructions
+
+| Instruction | Access | Description |
+|-------------|--------|-------------|
+| `initialize_oracle` | Authority | Create oracle config for a mint |
+| `update_feed` | Authority | Update price data from feed |
+| `compute_mint_amount` | Any | Calculate mint amount at price |
+| `compute_redeem_amount` | Any | Calculate redeem amount at price |
+| `read_feed` | Any | Read current oracle price |
+
+```mermaid
+flowchart LR
+    FEED["Switchboard<br/>Price Feed"] -->|"update_feed"| OC["OracleConfig PDA"]
+    OC -->|"compute_mint_amount"| CA["ComputedAmount<br/>(event)"]
+    OC -->|"read_feed"| PD["PriceData<br/>(return)"]
+    SDK["SDK Client"] -->|"fetchOracleConfig"| OC
+    SDK -->|"computeMintAmountFromOracle"| CA
+```
+
 ## Role-Based Access Control
 
 ```
@@ -109,6 +231,33 @@ Master Authority
     └── Seizer — seize tokens (SSS-2)
 ```
 
+### RBAC Hierarchy Diagram
+
+```mermaid
+graph TD
+    MA["Master Authority<br/>(Single Keypair)"]
+    
+    MA -->|"update_minter"| M1["Minter A<br/>quota: 1M"]
+    MA -->|"update_minter"| M2["Minter B<br/>quota: 500K"]
+    MA -->|"update_roles"| P["Pauser"]
+    MA -->|"update_roles"| BL["Blacklister"]
+    MA -->|"update_roles"| S["Seizer"]
+    MA -->|"transfer_authority"| MA2["New Authority"]
+    
+    M1 -->|"mint_tokens"| MINT["Token Minting"]
+    M2 -->|"mint_tokens"| MINT
+    P -->|"pause / unpause"| PAUSE["Global Pause"]
+    BL -->|"add/remove_blacklist"| BLACK["Blacklist Mgmt"]
+    S -->|"seize"| SEIZE["Token Seizure"]
+
+    style MA fill:#e74c3c,color:#fff
+    style M1 fill:#3498db,color:#fff
+    style M2 fill:#3498db,color:#fff
+    style P fill:#f39c12,color:#fff
+    style BL fill:#9b59b6,color:#fff
+    style S fill:#e67e22,color:#fff
+```
+
 ## PDA Derivation
 
 | PDA | Seeds | Purpose |
@@ -117,6 +266,35 @@ Master Authority
 | MinterConfig | `["minter", config, minter]` | Per-minter quota tracking |
 | BlacklistEntry | `["blacklist", config, address]` | On-chain blacklist |
 | ExtraAccountMetaList | `["extra-account-metas", mint]` | Transfer hook meta |
+| OracleConfig | `["oracle-config", mint]` | Oracle price feed config |
+
+### PDA Relationship Diagram
+
+```mermaid
+graph LR
+    MINT["Token Mint<br/>(Token-2022)"]
+    
+    MINT --> SC["StablecoinConfig PDA<br/>seeds: [stablecoin, mint]"]
+    SC --> MC1["MinterConfig PDA<br/>seeds: [minter, config, minter_A]"]
+    SC --> MC2["MinterConfig PDA<br/>seeds: [minter, config, minter_B]"]
+    SC --> BL1["BlacklistEntry PDA<br/>seeds: [blacklist, config, addr_1]"]
+    SC --> BL2["BlacklistEntry PDA<br/>seeds: [blacklist, config, addr_2]"]
+    
+    MINT --> EAML["ExtraAccountMetaList PDA<br/>seeds: [extra-account-metas, mint]"]
+    MINT --> OC["OracleConfig PDA<br/>seeds: [oracle-config, mint]"]
+    
+    SC -.->|"mint authority"| MINT
+    SC -.->|"freeze authority"| MINT
+    
+    style MINT fill:#2ecc71,color:#fff
+    style SC fill:#3498db,color:#fff
+    style MC1 fill:#9b59b6,color:#fff
+    style MC2 fill:#9b59b6,color:#fff
+    style BL1 fill:#e74c3c,color:#fff
+    style BL2 fill:#e74c3c,color:#fff
+    style EAML fill:#f39c12,color:#fff
+    style OC fill:#1abc9c,color:#fff
+```
 
 ## Security Considerations
 
@@ -124,3 +302,4 @@ Master Authority
 2. **Quota Enforcement**: Each minter has an independent quota, preventing any single key from minting unlimited tokens
 3. **Atomic Blacklist Checks**: Transfer hook checks are atomic — if the hook program is unavailable, transfers fail (safe default)
 4. **Upgrade Authority**: Programs should be deployed as immutable or with a multisig upgrade authority in production
+5. **Oracle Feed Staleness**: Oracle module enforces configurable staleness thresholds — stale price data will be rejected
